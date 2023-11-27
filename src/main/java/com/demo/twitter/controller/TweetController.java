@@ -31,9 +31,7 @@ public class TweetController {
     @PostMapping("/createtweet")
     public void CreateTweet(@RequestBody Tweet newTweet) {
 
-        logger.info("Before creating new tweet..." + newTweet.toString());
         tweetRepo.save(newTweet);
-        logger.info("After creating new tweet..." + newTweet.toString());
     }
 
     @DeleteMapping("/deletetweet/{tweetId}")

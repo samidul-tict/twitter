@@ -12,9 +12,8 @@ public class User {
 
     private String email;
 
-    public User(String id, String name, String email) {
+    public User(String name, String email) {
         super();
-        this.id = id;
         this.name = name;
         this.email = email;
     }
@@ -30,10 +29,6 @@ public class User {
                 ", name='" + name + '\'' +
                 ", email='" + email + '\'' +
                 '}';
-    }
-
-    public void setId(String id) {
-        this.id = id;
     }
 
     public String getName() {

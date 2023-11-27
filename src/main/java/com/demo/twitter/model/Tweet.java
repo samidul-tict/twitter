@@ -1,18 +1,20 @@
 package com.demo.twitter.model;
 
 import java.time.Instant;
+import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-@Document("Tweet")
+@Document("tweets")
 public class Tweet {
 
     private Logger logger = LoggerFactory.getLogger(Tweet.class);
     @Id
-    private String Id;
+    private String id;
 
     private String content;
 
@@ -22,17 +24,16 @@ public class Tweet {
 
     private TweetMetadata metadata;
 
-    public Tweet(String content, int numberOfRetweets, StringBuffer metadata) {
+    public Tweet(String content, int numberOfRetweets, TweetMetadata metadata) {
+        super();
         this.content = content;
         this.numberOfRetweets = numberOfRetweets;
         this.timestamp = Instant.now();
-        logger.info("metadata: " + metadata);
-        logger.info("metadata class: " + metadata.getClass());
-        //this.metadata = metadata;
+        this.metadata = metadata;
     }
 
     public String getId() {
-        return Id;
+        return id;
     }
 
     public String getContent() {
@@ -59,22 +60,52 @@ public class Tweet {
         this.timestamp = timestamp;
     }
 
-    /*public TweetMetadata getMetadata() {
+    public TweetMetadata getMetadata() {
         return metadata;
     }
 
     public void setMetadata(TweetMetadata metadata) {
         this.metadata = metadata;
-    }*/
+    }
 
-    @Override
+    /*@Override
     public String toString() {
         return "Tweet{" +
-                "Id='" + Id + '\'' +
+                "Id='" + id + '\'' +
                 ", content='" + content + '\'' +
                 ", numberOfRetweets=" + numberOfRetweets +
                 ", timestamp=" + timestamp +
-                //", metadata=" + metadata.toString() +
+                ", metadata=" + metadata.toString() +
                 '}';
+    }*/
+
+    static class TweetMetadata {
+
+        private String authorId;
+
+        private List<String> hashTags;
+
+        @JsonCreator
+        public TweetMetadata(String authorId, List<String> hashTags) {
+
+            this.hashTags = hashTags;
+            this.authorId = authorId;
+        }
+
+        public String getAuthorId() {
+            return authorId;
+        }
+
+        public List<String> getHashTags() {
+            return hashTags;
+        }
+
+        /*@Override
+        public String toString() {
+            return "TweetMetadata{" +
+                    "authorId='" + authorId + '\'' +
+                    ", hashTags=" + hashTags +
+                    '}';
+        }*/
     }
 }
